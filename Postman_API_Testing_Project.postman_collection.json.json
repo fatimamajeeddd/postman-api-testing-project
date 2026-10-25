@@ -1,0 +1,146 @@
+{
+  "info": {
+    "_postman_id": "8d6caee9-e516-42ce-8ceb-66ecc6dab792",
+    "name": "Postman API Testing Project",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "59069115",
+    "_collection_link": "https://go.postman.co/collection/59069115-8d6caee9-e516-42ce-8ceb-66ecc6dab792?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Post",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {\r\n    pm.response.to.have.status(201);\r\n});\r\n\r\npm.test(\"Created post has correct title\", function () {\r\n    const response = pm.response.json();\r\n    pm.expect(response.title).to.eql(\"My first API test\");\r\n});\r\n\r\npm.test(\"Created post has userId 1\", function () {\r\n    const response = pm.response.json();\r\n    pm.expect(response.userId).to.eql(1);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"title\": \"My first API test\",\r\n  \"body\": \"Learning API testing with Postman\",\r\n  \"userId\": 1\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/posts",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "posts"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Single Post",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Post ID is 1\", function () {\r\n    const response = pm.response.json();\r\n    pm.expect(response.id).to.eql(1);\r\n});\r\npm.test(\"Title and body are not empty\", function () {\r\n    const response = pm.response.json();\r\n\r\n    pm.expect(response.title).to.be.a(\"string\").and.not.empty;\r\n    pm.expect(response.body).to.be.a(\"string\").and.not.empty;\r\n});\r\npm.test(\"Response is JSON\", function () {\r\n    pm.expect(pm.response.headers.get(\"Content-Type\"))\r\n        .to.include(\"application/json\");\r\n});\r\npm.test(\"Post fields have correct data types\", function () {\r\n    const response = pm.response.json();\r\n\r\n    pm.expect(response.userId).to.be.a(\"number\");\r\n    pm.expect(response.id).to.be.a(\"number\");\r\n    pm.expect(response.title).to.be.a(\"string\");\r\n    pm.expect(response.body).to.be.a(\"string\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/posts/1",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "posts",
+            "1"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET Missing Post",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 404\", function () {\r\n    pm.response.to.have.status(404);\r\n});\r\n\r\npm.test(\"Response body is empty\", function () {\r\n    pm.expect(pm.response.text()).to.eql(\"{}\");\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/posts/9999",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "posts",
+            "9999"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET Posts List",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r\n    pm.response.to.have.status(200);\r\n});\r\n\r\npm.test(\"Posts list is not empty\", function () {\r\n    const response = pm.response.json();\r\n    pm.expect(response).to.be.an(\"array\");\r\n    pm.expect(response.length).to.be.greaterThan(0);\r\n});\r\n\r\npm.test(\"First post has ID 1\", function () {\r\n    const response = pm.response.json();\r\n    pm.expect(response[0].id).to.eql(1);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://jsonplaceholder.typicode.com/posts",
+          "protocol": "https",
+          "host": [
+            "jsonplaceholder",
+            "typicode",
+            "com"
+          ],
+          "path": [
+            "posts"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
